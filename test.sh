@@ -56,18 +56,13 @@ else
 fi
 
 # Step 6: Fuzz WordPress plugin
-run_fuzz_object() {
-    ./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
+./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
     if [ $? -eq 0 ]; then
         echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' finished successfully."
     else
         echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' failed with exit code $?."
         exit 1
     fi
-}
-
-# Run the fuzz_object command
-run_fuzz_object
 
 # Deactivate the virtual environment
 deactivate

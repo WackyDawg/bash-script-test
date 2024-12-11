@@ -3,14 +3,14 @@
 # Telegram Bot API Token
 TOKEN="6766505665:AAEs3Y_PtHdjryOrFHcvL-g7MLTETxnyiKI"
 
+# Use the correct chat_id that you obtained from getUpdates
+CHAT_ID="1977426509"
+
 # Function to create hello.txt file
 create_file() {
   echo "Hello, this is a message from your Telegram bot!" > hello.txt
   echo "File hello.txt created."
 }
-
-# Use getUpdates API to retrieve chat_id from recent messages
-CHAT_ID=$(curl -s "https://api.telegram.org/bot$TOKEN/getUpdates" | jq -r '.result[0].message.chat.id')
 
 # Call the function to create the file
 create_file

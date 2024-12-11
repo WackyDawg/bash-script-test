@@ -8,7 +8,7 @@ WORKDIR /app
 COPY test.sh /app/test.sh
 
 # Install required dependencies (curl, jq, and python)
-RUN apk add --no-cache curl jq python3 py3-pip
+RUN apk add --no-cache curl jq python3 py3-pip git
 
 # Make the script executable
 RUN chmod +x /app/test.sh

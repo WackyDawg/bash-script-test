@@ -1,26 +1,39 @@
-# Use an official lightweight Linux image as the base image
-FROM alpine:latest
+# Use an official Python 3 base image
+FROM python:3.9-slim
 
-# Set working directory inside the container
+# Set environment variables
+ENV GITHUB_USERNAME="WackyDawg"
+ENV GITHUB_REPO="wpgarlic"
+ENV REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
+
+# Install required dependencies
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Bash script into the container
-COPY test.sh /app/test.sh
+# Step 1: Clone the GitHub repository
+RUN git clone "$REMOTE_URL" && \
+    cd "$GITHUB_REPO"
 
-# Install required dependencies (curl, jq, python, pip, git, Docker, and Docker Compose)
-RUN apk add --no-cache \
-    curl \
-    jq \
-    python3 \
-    py3-pip \
-    git \
-    docker \
-    docker-compose && \
-    # Enable Docker CLI completion and permissions
-    mkdir -p /var/run/docker.sock
+# Step 2: Create and activate the virtual environment
+RUN python3 -m venv venv
 
-# Make the script executable
-RUN chmod +x /app/test.sh
+# Step 3: Install Python requirements inside the virtual environment
+COPY requirements.txt ./
+RUN . venv/bin/activate && \
+    pip install --quiet --upgrade pip && \
+    pip install --quiet -r requirements.txt
 
-# Set the entrypoint to execute the Bash script
-ENTRYPOINT ["/bin/sh", "/app/test.sh"]
+# Step 4: Copy the rest of the application files
+COPY . .
+
+# Expose port for the local server
+EXPOSE 4000
+
+# Start the local server in the background and run the fuzzing command
+CMD python3 -m http.server 4000 --bind 0.0.0.0 & \
+    python fuzz_object.py plugin responsive-vector-maps --version 6.4.0 && \
+    kill $!

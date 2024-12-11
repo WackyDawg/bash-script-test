@@ -10,7 +10,27 @@ GITHUB_REPO="stunning-adventure"
 REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"  # Updated to use HTTPS
 FOLDER_TO_PUSH="test-folder"  # Folder to create and push
 
-# Step 1: Create a test folder
+# Step 1: Clone the repository
+if [ ! -d "$GITHUB_REPO" ]; then
+    git clone "$REMOTE_URL"
+    if [ $? -eq 0 ]; then
+        echo "Command 'git clone' finished successfully."
+    else
+        echo "Command 'git clone' failed with exit code $?."
+        exit 1
+    fi
+fi
+
+# Step 2: Navigate to the repository folder
+cd "$GITHUB_REPO"
+if [ $? -eq 0 ]; then
+    echo "Command 'Navigate to folder $GITHUB_REPO' finished successfully."
+else
+    echo "Command 'Navigate to folder $GITHUB_REPO' failed with exit code $?."
+    exit 1
+fi
+
+# Step 3: Create the folder inside the repository
 if [ ! -d "$FOLDER_TO_PUSH" ]; then
     mkdir "$FOLDER_TO_PUSH"
     if [ $? -eq 0 ]; then
@@ -21,7 +41,7 @@ if [ ! -d "$FOLDER_TO_PUSH" ]; then
     fi
 fi
 
-# Navigate to the folder to push
+# Navigate into the new folder
 cd "$FOLDER_TO_PUSH"
 if [ $? -eq 0 ]; then
     echo "Command 'Navigate to folder $FOLDER_TO_PUSH' finished successfully."
@@ -30,7 +50,7 @@ else
     exit 1
 fi
 
-# Step 2: Initialize Git repository
+# Step 4: Initialize Git repository (if not already initialized)
 if [ ! -d ".git" ]; then
     git init
     if [ $? -eq 0 ]; then
@@ -41,7 +61,7 @@ if [ ! -d ".git" ]; then
     fi
 fi
 
-# Step 3: Configure GitHub user and email
+# Step 5: Configure GitHub user and email
 git config user.name "$GITHUB_USERNAME"
 if [ $? -eq 0 ]; then
     echo "Command 'git config user.name' finished successfully."
@@ -58,7 +78,7 @@ else
     exit 1
 fi
 
-# Step 4: Add a README file
+# Step 6: Add a README file
 if [ ! -f "README.md" ]; then
     echo "# $GITHUB_REPO" > README.md
     git add README.md
@@ -70,7 +90,7 @@ if [ ! -f "README.md" ]; then
     fi
 fi
 
-# Step 5: Stage all files
+# Step 7: Stage all files
 git add .
 if [ $? -eq 0 ]; then
     echo "Command 'git add .' finished successfully."
@@ -79,8 +99,8 @@ else
     exit 1
 fi
 
-# Step 6: Commit changes
-git commit -m "Initial commit"
+# Step 8: Commit changes
+git commit -m "Added $FOLDER_TO_PUSH"
 if [ $? -eq 0 ]; then
     echo "Command 'git commit' finished successfully."
 else
@@ -88,16 +108,7 @@ else
     exit 1
 fi
 
-# Step 7: Add remote repository
-git remote add origin "$REMOTE_URL" || git remote set-url origin "$REMOTE_URL"
-if [ $? -eq 0 ]; then
-    echo "Command 'git remote add/set-url' finished successfully."
-else
-    echo "Command 'git remote add/set-url' failed with exit code $?."
-    exit 1
-fi
-
-# Step 8: Push to GitHub
+# Step 9: Push to GitHub
 git branch -M main
 if [ $? -eq 0 ]; then
     echo "Command 'git branch -M main' finished successfully."
@@ -115,4 +126,4 @@ else
 fi
 
 # Success message
-echo "Test folder '$FOLDER_TO_PUSH' has been successfully pushed to GitHub repository '$GITHUB_REPO'."
+echo "Folder '$FOLDER_TO_PUSH' has been successfully created and pushed to GitHub repository '$GITHUB_REPO'."

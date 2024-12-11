@@ -7,7 +7,7 @@ set -e
 GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi@gmail.com"
 GITHUB_REPO="bash-script-test"
-REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
+REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 REPO_DIR="$GITHUB_REPO"  # The directory where the repo will be cloned
 
 # Check if git is installed

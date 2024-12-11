@@ -8,7 +8,7 @@ GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi@gmail.com"
 GITHUB_REPO="bash-script-test"
 REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
-FOLDER_TO_PUSH="bash-script-test"  # Replace with the folder you want to push
+FOLDER_TO_PUSH="love"  # Replace with the folder you want to push
 
 # Check if git is installed
 if ! command -v git &> /dev/null
@@ -17,12 +17,16 @@ then
     exit 1
 fi
 
-# Navigate to the folder to push
+# Step 1: Create a test folder
 if [ ! -d "$FOLDER_TO_PUSH" ]; then
-  echo "The folder '$FOLDER_TO_PUSH' does not exist. Please check the path."
-  exit 1
+    mkdir "$FOLDER_TO_PUSH"
+    if [ $? -eq 0 ]; then
+        echo "Command 'mkdir $FOLDER_TO_PUSH' finished successfully."
+    else
+        echo "Command 'mkdir $FOLDER_TO_PUSH' failed with exit code $?."
+        exit 1
+    fi
 fi
-cd "$FOLDER_TO_PUSH"
 
 # Initialize Git repository
 if [ ! -d ".git" ]; then

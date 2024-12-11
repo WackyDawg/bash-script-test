@@ -1,14 +1,17 @@
-# Use an official Python 3 base image
-FROM python:3.9-slim
+# Use an official Ubuntu base image
+FROM ubuntu:20.04
 
 # Set environment variables
 ENV GITHUB_USERNAME="WackyDawg"
 ENV GITHUB_REPO="wpgarlic"
 ENV REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 
-# Install required dependencies
+# Set non-interactive mode to avoid prompt during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies (Python, Git, and other required tools)
 RUN apt-get update && \
-    apt-get install -y git && \
+    apt-get install -y python3 python3-pip python3-venv git && \
     apt-get clean
 
 # Set the working directory inside the container
@@ -27,7 +30,7 @@ RUN . venv/bin/activate && \
     pip install --quiet --upgrade pip && \
     pip install --quiet -r requirements.txt
 
-# Step 4: Copy the rest of the application files
+# Step 4: Copy the rest of the application files into the container
 COPY . .
 
 # Expose port for the local server

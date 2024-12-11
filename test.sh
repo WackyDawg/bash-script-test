@@ -32,13 +32,6 @@ if [ ! -d "venv" ]; then
 fi
 
 # Step 4: Activate the virtual environment
-source venv/bin/activate
-if [ $? -eq 0 ]; then
-    echo "Virtual environment activated."
-else
-    echo "Failed to activate the virtual environment."
-    exit 1
-fi
 
 # Step 5: Install Python requirements inside the virtual environment
 if [ -f "requirements.txt" ]; then
@@ -65,4 +58,4 @@ fi
     fi
 
 # Deactivate the virtual environment
-deactivate
+

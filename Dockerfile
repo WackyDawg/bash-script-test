@@ -28,6 +28,8 @@ Run cd wpgarlic
 # Step 2: Create and activate the virtual environment
 RUN python3 -m venv venv
 
+RUN ls    
+
 # Step 3: Install Python requirements inside the virtual environment
 #COPY requirements.txt ./
 RUN . venv/bin/activate && \

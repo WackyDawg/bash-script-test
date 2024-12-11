@@ -8,7 +8,7 @@ GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi@gmail.com"
 GITHUB_REPO="bash-script-test"
 REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
-FOLDER_TO_PUSH="love"  # Replace with the folder you want to push
+REPO_DIR="$GITHUB_REPO"  # The directory where the repo will be cloned
 
 # Check if git is installed
 if ! command -v git &> /dev/null
@@ -17,44 +17,44 @@ then
     exit 1
 fi
 
-# Step 1: Create a test folder
-if [ ! -d "$FOLDER_TO_PUSH" ]; then
-    mkdir "$FOLDER_TO_PUSH"
+# Step 1: Clone the repository
+if [ ! -d "$REPO_DIR" ]; then
+    git clone "$REMOTE_URL"
     if [ $? -eq 0 ]; then
-        echo "Command 'mkdir $FOLDER_TO_PUSH' finished successfully."
+        echo "Repository cloned successfully."
     else
-        echo "Command 'mkdir $FOLDER_TO_PUSH' failed with exit code $?."
+        echo "Failed to clone repository."
+        exit 1
+    fi
+else
+    echo "Repository already exists. Pulling latest changes."
+    cd "$REPO_DIR"
+    git pull origin main
+    if [ $? -eq 0 ]; then
+        echo "Pulled latest changes successfully."
+    else
+        echo "Failed to pull latest changes."
         exit 1
     fi
 fi
 
-# Initialize Git repository
-if [ ! -d ".git" ]; then
-  git init
-fi
+# Change to the repo directory
+cd "$REPO_DIR"
 
 # Set GitHub user and email
 git config user.name "$GITHUB_USERNAME"
 git config user.email "$GITHUB_EMAIL"
 
-# Add a README file if it doesn't exist
-if [ ! -f "README.md" ]; then
-  echo "# $GITHUB_REPO" > README.md
-  git add README.md
-fi
-
-# Stage all files
-git add .
+# Step 2: Create a new file
+echo "This is a new file." > newfile.txt
+git add newfile.txt
 
 # Commit changes
-git commit -m "Initial commit"
-
-# Add remote repository
-git remote add origin "$REMOTE_URL" || git remote set-url origin "$REMOTE_URL"
+git commit -m "Added new file"
 
 # Push to GitHub
 git branch -M main
-git push -u origin main
+git push origin main
 
 # Success message
-echo "Folder '$F
+echo "New file 'newfile.txt' added and pushed to repository '$GITHUB_REPO'."

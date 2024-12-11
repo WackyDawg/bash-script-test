@@ -1,27 +1,53 @@
 #!/bin/bash
 
-# Telegram Bot API Token
-TOKEN="6766505665:AAEs3Y_PtHdjryOrFHcvL-g7MLTETxnyiKI"
+GITHUB_USERNAME="kazet"
+GITHUB_REPO="wpgarlic"
+REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 
-# Use the correct chat_id that you obtained from getUpdates
-CHAT_ID="1977426509"
 
-# Function to create hello.txt file
-create_file() {
-  echo "Hello, this is a message from your Telegram bot!" > hello.txt
-  echo "File hello.txt created."
+# Step 1: Clone the repository
+if [ ! -d "$GITHUB_REPO" ]; then
+    git clone "$REMOTE_URL"
+    if [ $? -eq 0 ]; then
+        echo "Command 'git clone' finished successfully."
+    else
+        echo "Command 'git clone' failed with exit code $?."
+        exit 1
+    fi
+fi
+
+
+# Step 2: Navigate into the cloned repository
+cd "$GITHUB_REPO" || exit 1
+
+# Step 3: Run pip install requirements
+if [ -f "requirements.txt" ]; then
+    pip install -r requirements.txt
+    if [ $? -eq 0 ]; then
+        echo "Command 'pip install -r requirements.txt' finished successfully."
+    else
+        echo "Command 'pip install -r requirements.txt' failed with exit code $?."
+        exit 1
+    fi
+else
+    echo "'requirements.txt' not found. Please make sure the file exists in the current directory."
+    exit 1
+fi
+
+
+# Step 4:  Fuzz wordpress plugin
+run_fuzz_object() {
+    ./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
+    if [ $? -eq 0 ]; then
+        echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' finished successfully."
+    else
+        echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' failed with exit code $?."
+        exit 1
+    fi
 }
 
-# Call the function to create the file
-create_file
+# Run the fuzz_object command
+run_fuzz_object
 
-# Path to the file you want to send
-FILE_PATH="hello.txt"
 
-# Send the file to the retrieved chat_id using the Telegram Bot API
-curl -X POST "https://api.telegram.org/bot$TOKEN/sendDocument" \
-     -F chat_id="$CHAT_ID" \
-     -F document=@"$FILE_PATH"
 
-# Clean up the hello.txt file after sending it
-rm hello.txt

@@ -65,7 +65,7 @@ else
 fi
 
 # Step 6: Fuzz WordPress plugin
-./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
+python fuzz_object.py plugin responsive-vector-maps --version 6.4.0
 if [ $? -eq 0 ]; then
     echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' finished successfully."
 else

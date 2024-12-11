@@ -25,7 +25,7 @@ RUN git clone "$REMOTE_URL" && \
 RUN python3 -m venv venv
 
 # Step 3: Install Python requirements inside the virtual environment
-COPY requirements.txt ./
+#COPY requirements.txt ./
 RUN . venv/bin/activate && \
     pip install --quiet --upgrade pip && \
     pip install --quiet -r requirements.txt

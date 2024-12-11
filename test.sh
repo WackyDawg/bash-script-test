@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # Exit on errors
 set -e
@@ -7,7 +7,7 @@ set -e
 GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi098@gmail.com"
 GITHUB_REPO="bash-script"
-REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
+REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"  # Updated to use HTTPS
 FOLDER_TO_PUSH="test-folder"  # Folder to create and push
 
 # Step 1: Create a test folder

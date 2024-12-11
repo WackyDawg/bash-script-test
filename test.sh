@@ -4,9 +4,10 @@ GITHUB_USERNAME="kazet"
 GITHUB_REPO="wpgarlic"
 REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 
-# Step 6: Start a local server
+# Step 6: Start a local server in the background
 echo "Starting a local server..."
-python3 -m http.server 8000 --bind 0.0.0.0
+python3 -m http.server 4000 --bind 0.0.0.0 &
+SERVER_PID=$!
 if [ $? -eq 0 ]; then
     echo "Local server started successfully at http://localhost:8000"
 else
@@ -63,7 +64,6 @@ else
     exit 1
 fi
 
-
 # Step 6: Fuzz WordPress plugin
 ./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
 if [ $? -eq 0 ]; then
@@ -75,3 +75,7 @@ fi
 
 # Deactivate the virtual environment
 deactivate
+
+# Stop the local server
+kill $SERVER_PID
+echo "Local server stopped."

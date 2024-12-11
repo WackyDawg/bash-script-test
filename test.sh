@@ -1,119 +1,56 @@
-#!/bin/bash  
+#!/bin/bash
 
 # Exit on errors
 set -e
 
 # Variables (Replace with your details)
 GITHUB_USERNAME="WackyDawg"
-GITHUB_EMAIL="juliannwadinobi098@gmail.com"
+GITHUB_EMAIL="juliannwadinobi@gmail.com"
 GITHUB_REPO="bash-script-test"
-REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"  # Updated to use HTTPS
-FOLDER_TO_PUSH="test-folder"  # Folder to create and push
+REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
+FOLDER_TO_PUSH="path/to/your/folder"  # Replace with the folder you want to push
 
-# Step 1: Clone the repository
-if [ ! -d "$GITHUB_REPO" ]; then
-    git clone "$REMOTE_URL"
-    if [ $? -eq 0 ]; then
-        echo "Command 'git clone' finished successfully."
-    else
-        echo "Command 'git clone' failed with exit code $?."
-        exit 1
-    fi
-fi
-
-# Step 2: Navigate to the repository folder
-cd "$GITHUB_REPO"
-if [ $? -eq 0 ]; then
-    echo "Command 'Navigate to folder $GITHUB_REPO' finished successfully."
-else
-    echo "Command 'Navigate to folder $GITHUB_REPO' failed with exit code $?."
+# Check if git is installed
+if ! command -v git &> /dev/null
+then
+    echo "Git is not installed. Please install Git and try again."
     exit 1
 fi
 
-# Step 3: Create the folder inside the repository
+# Navigate to the folder to push
 if [ ! -d "$FOLDER_TO_PUSH" ]; then
-    mkdir "$FOLDER_TO_PUSH"
-    if [ $? -eq 0 ]; then
-        echo "Command 'mkdir $FOLDER_TO_PUSH' finished successfully."
-    else
-        echo "Command 'mkdir $FOLDER_TO_PUSH' failed with exit code $?."
-        exit 1
-    fi
+  echo "The folder '$FOLDER_TO_PUSH' does not exist. Please check the path."
+  exit 1
+fi
+cd "$FOLDER_TO_PUSH"
+
+# Initialize Git repository
+if [ ! -d ".git" ]; then
+  git init
 fi
 
-# Step 4: Configure GitHub user and email
+# Set GitHub user and email
 git config user.name "$GITHUB_USERNAME"
-if [ $? -eq 0 ]; then
-    echo "Command 'git config user.name' finished successfully."
-else
-    echo "Command 'git config user.name' failed with exit code $?."
-    exit 1
-fi
-
 git config user.email "$GITHUB_EMAIL"
-if [ $? -eq 0 ]; then
-    echo "Command 'git config user.email' finished successfully."
-else
-    echo "Command 'git config user.email' failed with exit code $?."
-    exit 1
-fi
 
-# Step 5: Add a README file
+# Add a README file if it doesn't exist
 if [ ! -f "README.md" ]; then
-    echo "# $GITHUB_REPO" > README.md
-    git add README.md
-    if [ $? -eq 0 ]; then
-        echo "Command 'git add README.md' finished successfully."
-    else
-        echo "Command 'git add README.md' failed with exit code $?."
-        exit 1
-    fi
+  echo "# $GITHUB_REPO" > README.md
+  git add README.md
 fi
 
-# Step 6: Stage all files
+# Stage all files
 git add .
-if [ $? -eq 0 ]; then
-    echo "Command 'git add .' finished successfully."
-else
-    echo "Command 'git add .' failed with exit code $?."
-    exit 1
-fi
 
-# Step 7: Commit changes
-git commit -m "Added $FOLDER_TO_PUSH"
-if [ $? -eq 0 ]; then
-    echo "Command 'git commit' finished successfully."
-else
-    echo "Command 'git commit' failed with exit code $?."
-    exit 1
-fi
+# Commit changes
+git commit -m "Initial commit"
 
-# Step 8: Ensure the correct remote repository is set
-git remote set-url origin "$REMOTE_URL"
-if [ $? -eq 0 ]; then
-    echo "Command 'git remote set-url' finished successfully."
-else
-    echo "Command 'git remote set-url' failed with exit code $?."
-    exit 1
-fi
+# Add remote repository
+git remote add origin "$REMOTE_URL" || git remote set-url origin "$REMOTE_URL"
 
-# Step 9: Ensure the correct branch is being used
+# Push to GitHub
 git branch -M main
-if [ $? -eq 0 ]; then
-    echo "Command 'git branch -M main' finished successfully."
-else
-    echo "Command 'git branch -M main' failed with exit code $?."
-    exit 1
-fi
-
-# Step 10: Push to GitHub
 git push -u origin main
-if [ $? -eq 0 ]; then
-    echo "Command 'git push -u origin main' finished successfully."
-else
-    echo "Command 'git push -u origin main' failed with exit code $?."
-    exit 1
-fi
 
 # Success message
-echo "Folder '$FOLDER_TO_PUSH' has been successfully created and pushed to GitHub repository '$GITHUB_REPO'."
+echo "Folder '$F

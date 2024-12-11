@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITHUB_USERNAME="kazet"
+GITHUB_USERNAME="WackyDawg"
 GITHUB_REPO="wpgarlic"
 REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 

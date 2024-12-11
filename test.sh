@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash  
 
 # Exit on errors
 set -e
@@ -57,6 +57,14 @@ if [ ! -d ".git" ]; then
         echo "Command 'git init' finished successfully."
     else
         echo "Command 'git init' failed with exit code $?."
+        exit 1
+    fi
+    # Add the remote origin after initializing git repository
+    git remote add origin "$REMOTE_URL"
+    if [ $? -eq 0 ]; then
+        echo "Command 'git remote add origin' finished successfully."
+    else
+        echo "Command 'git remote add origin' failed with exit code $?."
         exit 1
     fi
 fi

@@ -108,7 +108,16 @@ else
     exit 1
 fi
 
-# Step 9: Push to GitHub
+# Step 9: Ensure the correct remote repository is set
+git remote set-url origin "$REMOTE_URL"
+if [ $? -eq 0 ]; then
+    echo "Command 'git remote set-url' finished successfully."
+else
+    echo "Command 'git remote set-url' failed with exit code $?."
+    exit 1
+fi
+
+# Step 10: Push to GitHub
 git branch -M main
 if [ $? -eq 0 ]; then
     echo "Command 'git branch -M main' finished successfully."

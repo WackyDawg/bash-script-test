@@ -8,7 +8,7 @@ GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi@gmail.com"
 GITHUB_REPO="bash-script-test"
 REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
-FOLDER_TO_PUSH="path/to/your/folder"  # Replace with the folder you want to push
+FOLDER_TO_PUSH="bash-script-test"  # Replace with the folder you want to push
 
 # Check if git is installed
 if ! command -v git &> /dev/null

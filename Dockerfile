@@ -7,11 +7,11 @@ WORKDIR /app
 # Copy the Bash script into the container
 COPY test.sh /app/test.sh
 
+# Install required dependencies (curl and jq)
+RUN apk add --no-cache curl jq
+
 # Make the script executable
 RUN chmod +x /app/test.sh
-
-# Install required dependencies (e.g., Git)
-RUN apk add --no-cache git
 
 # Set the entrypoint to execute the Bash script
 ENTRYPOINT ["/bin/sh", "/app/test.sh"]

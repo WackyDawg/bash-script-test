@@ -4,6 +4,16 @@ GITHUB_USERNAME="kazet"
 GITHUB_REPO="wpgarlic"
 REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 
+# Step 6: Start a local server
+echo "Starting a local server..."
+python3 -m http.server 8000 --bind 0.0.0.0
+if [ $? -eq 0 ]; then
+    echo "Local server started successfully at http://localhost:8000"
+else
+    echo "Failed to start the local server."
+    exit 1
+fi
+
 # Step 1: Clone the repository
 if [ ! -d "$GITHUB_REPO" ]; then
     git clone "$REMOTE_URL"

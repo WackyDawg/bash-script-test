@@ -21,6 +21,8 @@ WORKDIR /app
 RUN git clone "$REMOTE_URL" && \
     cd "$GITHUB_REPO"
 
+RUN ls    
+
 # Step 2: Create and activate the virtual environment
 RUN python3 -m venv venv
 

@@ -4,7 +4,6 @@ GITHUB_USERNAME="kazet"
 GITHUB_REPO="wpgarlic"
 REMOTE_URL="https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git"
 
-
 # Step 1: Clone the repository
 if [ ! -d "$GITHUB_REPO" ]; then
     git clone "$REMOTE_URL"
@@ -15,7 +14,6 @@ if [ ! -d "$GITHUB_REPO" ]; then
         exit 1
     fi
 fi
-
 
 # Step 2: Navigate into the cloned repository
 cd "$GITHUB_REPO" || exit 1
@@ -32,11 +30,14 @@ if [ ! -d "venv" ]; then
 fi
 
 # Step 4: Activate the virtual environment
+# shellcheck disable=SC1091
+source venv/bin/activate
 
-# Step 5: Install Python requirements inside the virtual environment
+# Step 5: Upgrade pip and install Python requirements inside the virtual environment
 if [ -f "requirements.txt" ]; then
     pip install --upgrade pip
-    pip install -r requirements.txt
+    pip install --upgrade setuptools
+    pip install -r requirements.txt --break-system-packages
     if [ $? -eq 0 ]; then
         echo "Command 'pip install -r requirements.txt' finished successfully."
     else
@@ -50,12 +51,12 @@ fi
 
 # Step 6: Fuzz WordPress plugin
 ./bin/fuzz_object plugin responsive-vector-maps --version 6.4.0
-    if [ $? -eq 0 ]; then
-        echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' finished successfully."
-    else
-        echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' failed with exit code $?."
-        exit 1
-    fi
+if [ $? -eq 0 ]; then
+    echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' finished successfully."
+else
+    echo "Command './bin/fuzz_object plugin responsive-vector-maps --version 6.4.0' failed with exit code $?."
+    exit 1
+fi
 
 # Deactivate the virtual environment
-
+deactivate

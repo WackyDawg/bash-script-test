@@ -23,6 +23,8 @@ RUN git clone "$REMOTE_URL" && \
 
 RUN ls    
 
+Run cd wpgarlic
+
 # Step 2: Create and activate the virtual environment
 RUN python3 -m venv venv
 

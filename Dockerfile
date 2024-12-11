@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy the Bash script into the container
 COPY test.sh /app/test.sh
 
-# Install required dependencies (curl and jq)
-RUN apk add --no-cache curl jq
+# Install required dependencies (curl, jq, and python)
+RUN apk add --no-cache curl jq python3 py3-pip
 
 # Make the script executable
 RUN chmod +x /app/test.sh

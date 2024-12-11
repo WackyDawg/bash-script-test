@@ -6,7 +6,7 @@ set -e
 # Variables (Replace with your details)
 GITHUB_USERNAME="WackyDawg"
 GITHUB_EMAIL="juliannwadinobi098@gmail.com"
-GITHUB_REPO="bash-script-test"
+GITHUB_REPO="bash-script"
 REMOTE_URL="git@github.com:$GITHUB_USERNAME/$GITHUB_REPO.git"
 FOLDER_TO_PUSH="test-folder"  # Folder to create and push
 

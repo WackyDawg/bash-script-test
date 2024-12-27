@@ -45,7 +45,7 @@
                                 https://www.nuevodevel.com/tracking/clickthrough
                             </Tracking>
                         </TrackingEvents>
-                        <Duration>00:00:25</Duration>
+                        <Duration>00:00:15</Duration>
                         <MediaFiles>
                             <MediaFile id="22" delivery="progressive"
                                 type="video/mp4" bitrate="2840" width="1280"
@@ -112,7 +112,7 @@
                                 https://www.nuevodevel.com/tracking/clickthrough
                             </Tracking>
                         </TrackingEvents>
-                        <Duration>00:00:25</Duration>
+                        <Duration>00:00:30</Duration>
                         <MediaFiles>
                             <MediaFile id="22" delivery="progressive"
                                 type="video/mp4" bitrate="2000" width="1280"
@@ -153,7 +153,7 @@
                         <TrackingEvents>
                             ...
                         </TrackingEvents>
-                        <Duration>00:00:40</Duration>
+                        <Duration>00:02:00</Duration>
                         <MediaFiles>
                             <MediaFile id="27" delivery="progressive"
                                 type="video/mp4" width="1280" height="720"
